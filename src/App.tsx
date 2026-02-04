@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from './pages/landing/LandingPage';
+import { ThankYouPage } from './pages/landing/ThankYouPage';
 
 import { SurveyProvider } from './hooks/useSurvey';
 import { ScreenerPage } from './pages/landing/ScreenerPage';
@@ -15,7 +16,7 @@ function App() {
           <Route path="/screener" element={<ScreenerPage />} />
           <Route path="/demographics" element={<DemographicsPage />} />
           <Route path="/survey/:part" element={<SurveySection />} />
-          <Route path="/thank-you" element={<div className="p-32 text-center font-heading text-4xl text-primary">Thank You for Participating!</div>} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
