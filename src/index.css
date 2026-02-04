@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-body antialiased overflow-x-hidden;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-primary font-normal tracking-tight;
+  }
+
+  /* Custom Selection Color */
+  ::selection {
+    @apply bg-accent/20 text-primary;
+  }
+}
+
+@layer components {
+
+  /* Editorial Block - Minimalist, no borders, just space and shadow */
+  .editorial-panel {
+    @apply bg-white rounded-none md:rounded-sm shadow-editorial p-8 md:p-12 transition-all duration-700;
+  }
+
+  /* Input Fields - Underlined "Fill in the blank" style */
+  .editorial-input {
+    @apply w-full bg-transparent border-b-2 border-primary/10 px-0 py-4 text-xl md:text-2xl font-heading text-primary placeholder:text-text-muted/50 placeholder:italic outline-none transition-all duration-300 focus:border-accent focus:border-b-2 focus:pb-5;
+  }
+
+  /* The "Gold" Button */
+  .btn-gold {
+    @apply relative overflow-hidden bg-accent text-white font-medium uppercase tracking-[0.15em] text-xs px-10 py-5 transition-all duration-500 ease-out hover:bg-primary hover:text-accent hover:shadow-xl;
+  }
+
+  .btn-outline {
+    @apply relative overflow-hidden border border-primary/20 text-primary font-medium uppercase tracking-[0.15em] text-xs px-8 py-4 transition-all duration-500 hover:border-primary hover:bg-primary hover:text-white;
+  }
+}
