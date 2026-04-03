@@ -16,7 +16,7 @@ export const LandingPage: React.FC = () => {
                 <div className="flex items-center gap-4">
                     <div className="font-heading font-black text-3xl md:text-4xl tracking-tighter text-primary">THE COLLECTION</div>
                     <div className="h-[1px] flex-grow bg-primary/20 md:hidden" />
-                    <div className="font-body text-[0.6rem] uppercase tracking-[0.2em] text-accent">Eco Edition</div>
+                    <div className="font-body text-[0.6rem] uppercase tracking-[0.2em] text-accent">Academic Survey 2026</div>
                 </div>
 
                 <div className="mt-12 md:mt-0">
@@ -25,14 +25,10 @@ export const LandingPage: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <div className="flex items-center gap-2 mb-4">
-                            <Star className="w-4 h-4 text-accent fill-accent" />
-                            <span className="font-body text-xs uppercase tracking-[0.25em] text-text-muted">Issue No. 2026</span>
-                        </div>
-                        <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl text-primary leading-[0.85] italic mb-6">
-                            The <br />
-                            <span className="font-normal not-italic ml-2 md:ml-12 block">Ethics</span>
-                            <span className="block text-4xl md:text-6xl text-secondary opacity-80 mt-2 font-normal">of Elegance</span>
+                        <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl text-primary leading-[0.85] italic mb-6">
+                            Full <br />
+                            <span className="font-normal not-italic block mt-4">Questionnaire</span>
+                            <span className="block text-2xl md:text-4xl text-secondary opacity-80 mt-4 font-normal">(IIT Kharagpur Student Edition)</span>
                         </h1>
                     </motion.div>
                 </div>
@@ -53,11 +49,11 @@ export const LandingPage: React.FC = () => {
                     <div className="w-12 h-[2px] bg-accent mb-8" />
 
                     <p className="font-heading text-2xl md:text-3xl text-primary leading-tight mb-8">
-                        "True luxury is knowing the story behind what you wear."
+                        Your voice defines the next era of mindful luxury.
                     </p>
 
                     <p className="font-body text-text-secondary leading-relaxed mb-12 text-sm md:text-base border-l-2 border-primary/10 pl-6">
-                        We invite you to participate in an exclusive study on the future of sustainable fashion consumption. Your voice defines the next era of mindful luxury.
+                        We invite you to participate in an exclusive study on the future of sustainable fashion consumption.
                         <br /><br />
                         <span className="block font-medium text-primary">5 Minutes • Anonymous • Insightful</span>
                     </p>

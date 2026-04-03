@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# THE COLLECTION – Academic Survey 2026
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Full Questionnaire — IIT Kharagpur Student Edition**
 
-Currently, two official plugins are available:
+An academic research survey on sustainable fashion consumption behaviour among IIT Kharagpur students, built with React + TypeScript + Vite and deployed on Vercel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🌿 About
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This survey collects data across five key sections:
 
-## Expanding the ESLint configuration
+1. **Eligibility Check** — Past fashion purchase history
+2. **About You (Demographics)** — Age, gender, education, income, city, spending habits, and sustainability awareness
+3. **Attitudes, Beliefs & Influences** — Fashion involvement, environmental knowledge, eco-concern, attitudes, social norms, perceived behavioural control, and consumer effectiveness
+4. **Realities & Barriers** — Price sensitivity, scepticism, brand trust, social media influence, and product availability
+5. **Intentions & Behaviour** — Purchase intentions and actual sustainable behaviour
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+All Likert-scale questions (Sections 3–5) use a **1 = Strongly Disagree → 5 = Strongly Agree** scale.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Backend / DB**: Supabase
+- **Deployment**: Vercel (auto-deploys on push to `main`)
+
+---
+
+## 🛠️ Local Development
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📦 Build & Deploy
+
+```bash
+npm run build
 ```
+
+Vercel automatically builds and deploys on every push to the `main` branch via the GitHub integration. No manual deployment steps needed.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── layout/       # SurveyLayout (header, progress bar, footer)
+│   └── ui/           # LikertScale, SemanticDiffScale, QuestionCard
+├── data/
+│   └── questions.ts  # All survey sections and question definitions
+├── hooks/
+│   └── useSurvey.ts  # Global survey state context
+├── pages/
+│   ├── landing/      # LandingPage, ScreenerPage, ThankYouPage
+│   ├── demographics/ # DemographicsPage (Section 2)
+│   └── survey/       # SurveySection (Sections 3–5)
+├── services/         # Supabase client & submission logic
+└── types/
+    └── survey.ts     # SurveyResponse type definition
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file at the root (see `.env.example`):
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+---
+
+*Academic Research Study • India • 2026*

@@ -1,135 +1,84 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Check } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { SurveyLayout } from '../../components/layout/SurveyLayout';
 import { QuestionCard } from '../../components/ui/QuestionCard';
 import { useSurvey } from '../../hooks/useSurvey';
-import { DURABLES_LIST, EDUCATION_MAP } from '../../services/nccsCalculator';
-import clsx from 'clsx';
-import { motion } from 'framer-motion';
 
 export const DemographicsPage: React.FC = () => {
     const navigate = useNavigate();
-    const { response, updateResponse, updateNCCS } = useSurvey();
+    const { updateResponse } = useSurvey();
 
-    // Local state for smoother UI before committing context
-    const [edu, setEdu] = useState(response.nccs?.chiefWageEarnerEducation || '');
-    const [localDurables, setLocalDurables] = useState(response.nccs?.durables || {});
-    const [age, setAge] = useState<number | ''>(response.demographics?.age || '');
-    const [gender, setGender] = useState(response.demographics?.gender || '');
+    const [form, setForm] = useState<Record<string, string>>({
+        age: '',
+        gender: '',
+        education: '',
+        occupation: '',
+        income: '',
+        city: '',
+        frequency: '',
+        spending: '',
+        awareness: '',
+        purchased: ''
+    });
 
-    const toggleDurable = (key: string) => {
-        setLocalDurables((prev: any) => ({
-            ...prev,
-            [key]: !prev[key as keyof typeof prev]
-        }));
+    const handleChange = (field: string, value: string) => {
+        setForm(prev => ({ ...prev, [field]: value }));
     };
 
     const handleNext = () => {
-        if (!age || !gender || !edu) {
-            alert("Please complete all fields.");
+        if (Object.values(form).some(val => val === '')) {
+            alert("Please complete all fields to continue.");
             return;
         }
 
-        updateResponse({
-            demographics: {
-                age: Number(age),
-                gender: gender as string
-            }
-        });
-        updateNCCS({ chiefWageEarnerEducation: edu, durables: localDurables as any });
-
-        navigate('/survey/1'); // Proceed to NEP Scale
+        updateResponse({ demographics: form });
+        navigate('/survey/1');
     };
 
-    return (
-        <SurveyLayout title="About You" progress={10}>
+    const options = {
+        age: ['18-22 years', '23-27 years', '28-32 years', '33-35 years'],
+        gender: ['Male', 'Female', 'Non-binary', 'Prefer not to say'],
+        education: ['Undergraduate (B.Tech, B.Sc, etc.)', 'Graduate (M.Tech, MBA, etc.)', 'Other'],
+        occupation: ['Student', 'Employed (public/private)', 'Self-employed', 'Unemployed', 'Other'],
+        income: ['<₹5,000', '₹5,000 - ₹10,000', '₹10,000 - ₹20,000', '₹20,000 - ₹35,000', '₹35,000 - ₹50,000'],
+        city: ['Metro (Tier 1 city like Delhi, Mumbai, Kolkata, Chennai, Bangalore, Hyderabad)', 'Tier 2 city (e.g., Pune, Jaipur, Lucknow, Kochi)', 'Tier 3 city (e.g., small towns, rural areas)', 'Other'],
+        frequency: ['Weekly', 'Monthly', 'Quarterly', 'Bi-annually', 'Annually'],
+        spending: ['<₹1000', '₹1000 - ₹3000', '₹3000 - ₹5000', '₹5000 - ₹10000', '>₹10000'],
+        awareness: ['Yes', 'No'],
+        purchased: ['Yes', 'No']
+    };
 
-            {/* 1. Basic Demographics */}
+    const SelectField = ({ label, field, opts }: { label: string, field: string, opts: string[] }) => (
+        <div className="space-y-2 mb-6">
+            <label className="text-sm font-medium text-text-secondary ml-1">{label}</label>
+            <select
+                value={form[field]}
+                onChange={(e) => handleChange(field, e.target.value)}
+                className="glass-input appearance-none w-full"
+            >
+                <option value="">Select an option</option>
+                {opts.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+            </select>
+        </div>
+    );
+
+    return (
+        <SurveyLayout title="About You (Demographics)" progress={10}>
             <QuestionCard delay={0.1}>
                 <h3 className="text-xl font-medium text-primary mb-6">Basic Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-text-secondary ml-1">Age</label>
-                        <input
-                            type="number"
-                            value={age}
-                            onChange={(e) => setAge(Number(e.target.value))}
-                            className="glass-input"
-                            placeholder="e.g. 24"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-text-secondary ml-1">Gender</label>
-                        <select
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="glass-input appearance-none"
-                        >
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Non-binary">Non-binary</option>
-                            <option value="Prefer not to say">Prefer not to say</option>
-                        </select>
-                    </div>
-                </div>
-            </QuestionCard>
-
-            {/* 2. NCCS - Education */}
-            <QuestionCard delay={0.2}>
-                <h3 className="text-xl font-medium text-primary mb-4">Chief Wage Earner's Education</h3>
-                <p className="text-sm text-text-muted mb-6">The highest education level of the main income earner in your household.</p>
-
-                <div className="space-y-3">
-                    {Object.keys(EDUCATION_MAP).map((level) => (
-                        <button
-                            key={level}
-                            onClick={() => setEdu(level)}
-                            className={clsx(
-                                "w-full text-left p-4 rounded-xl border transition-all text-sm md:text-base touch-manipulation",
-                                edu === level
-                                    ? "bg-primary text-white border-primary shadow-lg scale-[1.01]"
-                                    : "bg-white/40 border-primary/10 hover:bg-white/60 text-text-primary"
-                            )}
-                        >
-                            {level}
-                        </button>
-                    ))}
-                </div>
-            </QuestionCard>
-
-            {/* 3. NCCS - Durables */}
-            <QuestionCard delay={0.3}>
-                <h3 className="text-xl font-medium text-primary mb-4">Household Amenities</h3>
-                <p className="text-sm text-text-muted mb-6">Which of the following items do you own in your household?</p>
-
-                <div className="grid grid-cols-2 gap-3 md:gap-4">
-                    {DURABLES_LIST.map((item) => {
-                        const isSelected = !!localDurables[item.id as keyof typeof localDurables];
-                        return (
-                            <motion.button
-                                key={item.id}
-                                whileTap={{ scale: 0.96 }}
-                                onClick={() => toggleDurable(item.id)}
-                                className={clsx(
-                                    "relative p-4 rounded-xl border flex flex-col items-center justify-center text-center gap-3 transition-all h-32 touch-manipulation",
-                                    isSelected
-                                        ? "bg-secondary/10 border-secondary text-primary-dark shadow-inner"
-                                        : "bg-white/30 border-transparent hover:bg-white/50 text-text-muted"
-                                )}
-                            >
-                                {isSelected && (
-                                    <div className="absolute top-2 right-2 text-secondary">
-                                        <Check className="w-4 h-4" />
-                                    </div>
-                                )}
-                                <span className={clsx("font-medium text-sm", isSelected ? "text-primary-dark" : "text-text-secondary")}>
-                                    {item.label}
-                                </span>
-                            </motion.button>
-                        );
-                    })}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+                    <SelectField label="Age" field="age" opts={options.age} />
+                    <SelectField label="Gender" field="gender" opts={options.gender} />
+                    <SelectField label="Education Level" field="education" opts={options.education} />
+                    <SelectField label="Occupation" field="occupation" opts={options.occupation} />
+                    <SelectField label="Monthly Personal Income/Allowance" field="income" opts={options.income} />
+                    <SelectField label="City of Residence" field="city" opts={options.city} />
+                    <SelectField label="Fashion Purchase Frequency" field="frequency" opts={options.frequency} />
+                    <SelectField label="Average Monthly Fashion Spending" field="spending" opts={options.spending} />
+                    <SelectField label="Aware of the concept of sustainable fashion?" field="awareness" opts={options.awareness} />
+                    <SelectField label="Ever purchased a product you consider sustainable?" field="purchased" opts={options.purchased} />
                 </div>
             </QuestionCard>
 
@@ -139,7 +88,6 @@ export const DemographicsPage: React.FC = () => {
                     <ChevronRight className="w-5 h-5" />
                 </button>
             </div>
-
         </SurveyLayout>
     );
 };

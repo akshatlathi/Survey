@@ -55,26 +55,11 @@ export const SurveySection: React.FC = () => {
         // The type `SurveyResponse` has nested objects (nep_scores, etc).
         // We can infer the parent key from the question ID prefix.
         const getParentKey = (qid: string) => {
-            // Psychographics
-            if (qid.startsWith('FI')) return 'psych_scores'; // Fashion Involvement
-            if (qid.startsWith('EK')) return 'psych_scores'; // Env Knowledge
-            if (qid.startsWith('GW')) return 'barrier_scores'; // Greenwashing (Psych/Barrier)
-
-            // TPB
             if (qid.startsWith('ATT')) return 'attitude_scores';
-            if (qid.startsWith('SN') || qid.startsWith('SM')) return 'psych_scores'; // Social Norms & Media
-            if (qid.startsWith('PBC')) return 'psych_scores'; // PBC often grouped or separate. Let's map to psych for now or add new field.
-            if (qid.startsWith('PN')) return 'psych_scores';
-
-            // Barriers
-            if (qid.startsWith('GT')) return 'barrier_scores';
-            if (qid.startsWith('PS')) return 'barrier_scores';
-            if (qid.startsWith('AV')) return 'barrier_scores';
-
-            // Outcome
-            if (qid.startsWith('PI') || qid.startsWith('AB') || qid.startsWith('WTP')) return 'outcome_scores';
-
-            return 'misc';
+            if (qid.startsWith('PS') || qid.startsWith('SKE') || qid.startsWith('TRU') || qid.startsWith('AVA')) return 'barrier_scores';
+            if (qid.startsWith('PI') || qid.startsWith('AB')) return 'outcome_scores';
+            // Everything else to psych_scores
+            return 'psych_scores';
         };
 
         Object.entries(answers).forEach(([key, val]) => {
