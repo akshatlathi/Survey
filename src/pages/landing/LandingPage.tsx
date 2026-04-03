@@ -25,10 +25,10 @@ export const LandingPage: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl text-primary leading-[0.85] italic mb-6">
-                            Full <br />
-                            <span className="font-normal not-italic block mt-4">Questionnaire</span>
-                            <span className="block text-2xl md:text-4xl text-secondary opacity-80 mt-4 font-normal">(IIT Kharagpur Student Edition)</span>
+                        <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl text-primary leading-[0.85] italic mb-6">
+                            The <br />
+                            <span className="font-normal not-italic ml-2 md:ml-12 block">Ethics</span>
+                            <span className="block text-4xl md:text-6xl text-secondary opacity-80 mt-2 font-normal">of Elegance</span>
                         </h1>
                     </motion.div>
                 </div>
