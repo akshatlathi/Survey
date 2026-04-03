@@ -1,4 +1,8 @@
-import type { NCCSData } from '../types/survey';
+// Local type definition (NCCSData removed from global survey types)
+interface NCCSData {
+    chiefWageEarnerEducation: string;
+    durables: Record<string, boolean>;
+}
 
 export const EDUCATION_MAP: Record<string, number> = {
     'Illiterate': 1,
